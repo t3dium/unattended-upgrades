@@ -6,6 +6,11 @@ Unattended upgrades is extremely bloated for what it's meant to do, it's written
 
 _(Bare in mind the setup script isn't one line, the script it adds to cron is one line)_
 
+# How to Run
+1) `git clone https://github.com/t3dium/unattended-upgrades.git`
+2) `cd unattended-upgrades`
+3) `sudo bash setup.sh`
+
 # Todo
 
 - [ ] Check if user is online, if so ask before upgrading.
