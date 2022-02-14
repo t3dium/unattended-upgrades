@@ -7,15 +7,40 @@ red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 ###########################################################################################################
+schedule_cleanup(){
+  #Cleanup - these will not be concatinated and will be passed directly to cron. Will need to run after cron file has been created through add_to_cron function
+  ###########################################################################################################
+  echo "$green Schedule monthly removal of unnused dependencies or files not needed anymore (old files etc)? $purple [Options] = [y] [n]"
+  read cleanup_system
+  if [ $cleanup_system == "y" ]; then
+    #debian/ubuntu
+    if [ $distro == "1" ]; then
+      echo "@monthly apt auto-remove -y" >> crontab -e
+    else
+      #arch
+      #below command pipes excplicit orphans (not optional ones) into pacman's full remove command.
+      echo "pacman -Qtdq | pacman -Rns --noconfirm" >> crontab -e
+    fi
+  fi
+  ###########################################################################################################
+  echo "$green Schedule monthly docker cleanup? Old images, unused volumes etc [Options] = [y] [n]"
+  read cleanup_docker
+  if [ $cleanup_docker == "y" ]; then
+    echo "@monthly docker system prune" >> crontab -e
+  fi
+  echo "$purple Finished, system upgrades and/or cleanups have been scheduled without the need for 3k python lines of code."
+}
+###########################################################################################################
 add_to_cron(){
+      #passing a file to cron (as opposed to simply echo-ing to crontab -e) generates a cron file if none exists.
       #concatinating all the cron values
       thing="${occurence} ${cron_value_distro} ${cron_value_flatpak} ${cron_value_snap} ${cron_value_pip} "
       touch thing
       echo $thing >> thing
       sudo crontab thing
       rm thing
-      echo "Finished, system upgrades have been scheduled without the need for 3k python lines of code."
     fi
+    schedule_cleanup
 }
 ###########################################################################################################
 check_root(){
@@ -78,5 +103,6 @@ if [ $pip == "y" ]; then
 else
   cron_value_pip=""
 fi
+##########################################################################################################
 #script needs to run as sudo
 check_root
