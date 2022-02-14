@@ -14,7 +14,8 @@ _(Bare in mind the setup script isn't one line, the script it adds to cron is on
 # Todo
 
 - [ ] Check if user is online, if so ask before upgrading.
-- [x] Adding support for snaps, flatpaks, pip, and other package managers.
+- [x] Adding support for snaps, flatpaks, pip, and other package managers. (Optional)
+- [x] Schedule system cleanups and docker prunes (Optional)
 
 Currently Supported Package Managers  |
 -------------------|
@@ -25,5 +26,3 @@ Flatpak            |
 Snap               |
 Docker (coming soon)
 More coming soon|
-
-*During setup you have the option to disable certain package types from being auto updated*
