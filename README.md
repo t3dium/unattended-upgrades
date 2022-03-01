@@ -13,7 +13,7 @@ _(Bare in mind the setup script isn't one line, the script it adds to cron is on
 
 # Todo
 
-- [ ] Check if user is online, if so ask before upgrading.
+- [x] TUI, text based terminal GUI
 - [x] Adding support for snaps, flatpaks, pip, and other package managers. (Optional)
 - [x] Schedule system cleanups and docker prunes (Optional)
 
