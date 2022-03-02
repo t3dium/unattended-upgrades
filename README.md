@@ -24,5 +24,6 @@ Apt (debian/ubuntu)|
 Pip                |
 Flatpak            |
 Snap               |
+Ruby|
 Docker (coming soon)
 More coming soon|
