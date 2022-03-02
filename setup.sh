@@ -1,34 +1,20 @@
 #!/bin/bash
 #The actual script is 1 line, the setup script isnt
 
+#complete rewrite of script in TUI, (whiptail is already installed on most systems)
+echo "$red opening whiptail tui.. if you get an error you might need to install whiptail"
 ###########################################################################################################
 purple=`tput setaf 5`
 red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 ###########################################################################################################
-
 if [ "$USER" != "root" ]; then
-      echo "${red} Permission Denied"
-      echo "${red} Can only be run as root, make sure to run the script with sudo at the start of your command. For e.g, sudo bash linux.sh"
+      whiptail --title "warning" --msgbox "Permission Denied, script needs to run as root. Re-run this command but with sudo at the start" 8 78
       exit
 else
-      echo "${green} Welcome"
+      whiptail --title "unattended-upgrades" --msgbox "Welcome to unattended-upgrades, press [enter] to continue" 8 78
 fi
-
-#complete rewrite of script in TUI, (whiptail is already installed on most systems)
-echo "$red opening whiptail tui.. if you get an error you might need to install whiptail"
-###########################################################################################################
-check_root(){
-  if [ "$USER" != "root" ]; then
-        echo "${red} Permission Denied"
-        echo "${red} Can only be run as root, make sure to run the script with sudo at the start of your command. For e.g, sudo bash linux.sh"
-        exit
-  else
-        echo "${green} continuing..."
-  fi
-  add_to_cron
-}
 ###########################################################################################################
 if (whiptail --title "check distro" --yesno "Select [yes] if you're using debian/ubuntu, [no] if you're using arch" 8 78); then
   distro="debian"
@@ -86,7 +72,7 @@ if (whiptail --title "system cleanup" --yesno "Schedule monthly removal of unnus
   fi
 fi
 ##########################################################################################################
-if (whiptail --title "docker cleanup" --yesno "Schedule monthly docker cleanup? Old images, unused volumes etc" 8 78); then
+if (whiptail --title "docker cleanup" --yesno "Schedule monthly docker cleanup? Old images, unused volumes etc. ######THIS WILL CONSIDER STOPPED CONTAINERS AS UNUSED, SO DO NOT AUTOMATE IF YOU STOP CONTAINERS THAT YOU NEED########" 8 78); then
   #debian/ubuntu
   echo "@monthly docker system prune -f" >> stuff.txt
 fi
